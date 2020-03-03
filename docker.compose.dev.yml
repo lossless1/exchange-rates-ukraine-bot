@@ -1,0 +1,26 @@
+version: '2.0'
+services:
+  exhange-bot-server:
+    container_name: exhange-bot-server
+    env_file:
+      - ./.env
+    volumes:
+      - ./:/usr/src/app:cached
+      node_modules:cached
+    ports:
+      - 8000:8000
+    command: bash configure.sh
+    links:
+      - exhange-bot-mongo
+	exhange-bot-mongo:
+    container_name: exhange-bot-mongo
+    image: mongo:4.2.3-bionic
+    env_file:
+      - ./.env
+    volumes:
+      - chatBot:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+volumes:
+  chatBot:

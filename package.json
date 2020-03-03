@@ -1,0 +1,37 @@
+{
+  "name": "exchange-rates-ukraine-bot",
+  "version": "1.0.0",
+  "description": "Telegram bot to showing exchange rates every day",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./src/index.js",
+    "start:dev": "nodemon --inspect ./src/index.js 80"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lossless1/exchange-rates-ukraine-bot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lossless1/exchange-rates-ukraine-bot/issues"
+  },
+  "homepage": "https://github.com/lossless1/exchange-rates-ukraine-bot#readme",
+  "dependencies": {
+    "aws-sdk": "^2.628.0",
+    "dotenv": "^8.2.0",
+    "got": "^10.6.0",
+    "telegraf": "^3.36.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2",
+    "eslint": "^6.6.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-config-prettier": "^6.5.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-prettier": "^3.1.1",
+    "prettier": "1.19.1"
+  }
+}
