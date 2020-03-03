@@ -7,12 +7,9 @@ const FinanceApi = require('./utils/api/FinanceApi');
 //978534005 bot
 class TelegramExecutor extends DynamoDatabase {
   async execute() {
-    console.log('Starting');
-    console.log(TOKEN);
     const bot = new Telegraf(TOKEN);
-    const telegram = new Telegram(TOKEN);
-    console.log(await telegram.getChatMembersCount(978534005));
-    // await telegram.sendMessage(251408559, 'Hello');
+    // console.log(await this.putItem());
+
     bot.start(async ctx => {
       console.log(ctx);
       ctx.telegram.setChatPermissions(ctx.botInfo.id, {
@@ -57,7 +54,6 @@ class TelegramExecutor extends DynamoDatabase {
       // return ctx.telegram.sendMessage(251408559, template);
       return ctx.reply(template);
     });
-    // console.log(bot.getMe());
     bot.command('showratesfinance', ctx => {
       console.log(123123);
       return ctx.reply('Hello');

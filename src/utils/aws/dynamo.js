@@ -1,6 +1,6 @@
 const got = require('got');
 const AWS = require('aws-sdk');
-
+const tableName = 'exchane-rates-ukraine-bot';
 class DynamoDatabase {
   constructor() {
     this.dynamodb = new AWS.DynamoDB({
@@ -12,36 +12,15 @@ class DynamoDatabase {
     return this.dynamodb.listTables({}).promise();
   }
 
-  async listTables() {
-    return this.dynamodb.listTables({}).promise();
-  }
-  async putItem({ tableName }) {
-    var params = {
-      TableName: tableName,
-      Item: {
-        CUSTOMER_ID: { N: '001' },
-        CUSTOMER_NAME: { S: 'Richard Roe' }
-      }
-    };
-
-    ddb.putItem(params, function(err, data) {
-      if (err) {
-        console.log('Error', err);
-      } else {
-        console.log('Success', data);
-      }
-    });
-  }
-
   async getItem() {
     var params = {
-      TableName: 'TABLE',
+      TableName: tableName,
       Key: {
-        KEY_NAME: { N: '001' }
+        123: {}
       },
-      ProjectionExpression: 'ATTRIBUTE_NAME'
+      ProjectionExpression: 'integer'
     };
-    ddb.getItem(params, function(err, data) {
+    this.dynamodb.getItem(params, function(err, data) {
       if (err) {
         console.log('Error', err);
       } else {
@@ -50,14 +29,32 @@ class DynamoDatabase {
     });
   }
 
+  async putItem() {
+    var params = {
+      TableName: tableName,
+      Item: {
+        CUSTOMER_ID: { N: '001' },
+        CUSTOMER_NAME: { S: 'Richard Roe' }
+      }
+    };
+
+    this.dynamodb.putItem(params, function(err, data) {
+      if (err) {
+        console.log('Error', err);
+      } else {
+        console.log('Success', data);
+      }
+    });
+  }
+
   async deleteItem() {
     var params = {
-      TableName: 'TABLE',
+      TableName: tableName,
       Key: {
         KEY_NAME: { N: 'VALUE' }
       }
     };
-    ddb.deleteItem(params, function(err, data) {
+    this.dynamodb.deleteItem(params, function(err, data) {
       if (err) {
         console.log('Error', err);
       } else {
@@ -79,7 +76,7 @@ class DynamoDatabase {
       }
     };
 
-    ddb.batchGetItem(params, function(err, data) {
+    this.dynamodb.batchGetItem(params, function(err, data) {
       if (err) {
         console.log('Error', err);
       } else {
