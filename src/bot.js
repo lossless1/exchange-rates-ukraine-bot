@@ -1,62 +1,82 @@
 const Telegraf = require('telegraf');
 const Telegram = require('telegraf/telegram');
+const session = require('telegraf/session');
+const Extra = require('telegraf/extra');
+const Markup = require('telegraf/markup');
 const { TOKEN } = require('./config/env');
 const DynamoDatabase = require('./utils/aws/dynamo');
-const FinanceApi = require('./utils/api/FinanceApi');
+const FinanceApi = require('./api/FinanceApi');
 //251408559 user
 //978534005 bot
+
 class TelegramExecutor extends DynamoDatabase {
   async execute() {
     const bot = new Telegraf(TOKEN);
     // console.log(await this.putItem());
+    console.log('Started!');
 
+    // bot.use(session());
+    // bot.use(Telegraf.log());
+    // bot.use((ctx, next) => {
+    // ctx.state.text = ctx.message.text;
+    //   return next();
+    // });
     bot.start(async ctx => {
-      console.log(ctx);
-      ctx.telegram.setChatPermissions(ctx.botInfo.id, {
-        can_send_messages: true
-      });
       ctx.reply('Welcome to exchange bot!');
     });
-
     bot.help(ctx => ctx.reply('Send me a sticker'));
     bot.on('sticker', ctx => ctx.reply('👍'));
-    bot.command('showratesminfin', async ctx => {
-      const financeData = await FinanceApi.get();
-      const banks = ['ПриватБанк', 'Укрсиббанк'];
-      const currencyIgnore = ['RUB'];
-
-      const findedBanks = financeData.organizations.reduce((acc, val) => {
-        if (banks.includes(val.title)) {
-          return [...acc, val];
-        }
-        return [...acc];
-      }, []);
-
-      const template = findedBanks
-        .map(bank => {
-          console.log(bank);
-          const firstLine = `${bank.title}: \n`;
-          const nextLines = Object.keys(bank.currencies).reduce((acc, key) => {
-            const currency = bank.currencies[key];
-            if (currencyIgnore.includes(key)) {
-              return [...acc];
-            }
-            return [
-              ...acc,
-              `${key}: ${parseInt(currency.ask).toFixed(2)}/${parseInt(
-                currency.bid
-              ).toFixed(2)}`
-            ];
-          }, []);
-          return firstLine + nextLines.join('\n');
-        })
-        .join('\n\n');
-      // return ctx.telegram.sendMessage(251408559, template);
+    bot.command('showratesfinance', async ctx => {
+      const financeApi = new FinanceApi();
+      await financeApi.getData();
+      const template = financeApi.generateMessageTemplate();
+      // console.log(ctx.state);
+      ctx.session.counter = ctx.session.counter || 0;
+      ctx.session.counter++;
+      console.log(ctx.session.counter);
+      // return ctx.reply(
+      //   template,
+      // );
+      // return ctx.reply(
+      //   template,
+      //   Markup.keyboard([
+      //     'Every 6 hours',
+      //     'Every 12 hours',
+      //     'Every day',
+      //     'Every 2 days'
+      //   ])
+      //     .oneTime()
+      //     .resize()
+      //     .extra()
+      // );
       return ctx.reply(template);
     });
-    bot.command('showratesfinance', ctx => {
-      console.log(123123);
-      return ctx.reply('Hello');
+    bot.command('showratesminfin', async ctx => {
+      console.log(ctx.message);
+      const data = {
+        ...ctx.message.from,
+        chatId: ctx.message.chat.id,
+        date: ctx.message.date,
+        text: ctx.message.text
+      };
+      await this.putItem(data);
+
+      // ctx.state = { A: 2 };
+      // console.log(ctx.state);
+      // console.log(123123);
+      console.log(ctx.session);
+
+      return ctx.reply('Rates from minfin');
+    });
+    bot.on('text', async ctx => {
+      const data = {
+        ...ctx.message.from,
+        chatId: ctx.message.chat.id,
+        date: ctx.message.date,
+        text: ctx.message.text
+      };
+      await this.putItem(data);
+      return ctx.reply(ctx.message.text);
     });
     bot.launch();
   }

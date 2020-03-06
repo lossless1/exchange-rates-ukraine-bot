@@ -1,6 +1,8 @@
 const got = require('got');
 const AWS = require('aws-sdk');
 const tableName = 'exchane-rates-ukraine-bot';
+const uuid = require('uuid/v4');
+
 class DynamoDatabase {
   constructor() {
     this.dynamodb = new AWS.DynamoDB({
@@ -10,6 +12,34 @@ class DynamoDatabase {
   }
   async listTables() {
     return this.dynamodb.listTables({}).promise();
+  }
+
+  async scan() {
+    var params = {
+      TableName: tableName
+    };
+    this.dynamodb.scan(params, function(err, data) {
+      if (err) {
+        console.log('Error', err);
+      } else {
+        console.log('Success', data.Items);
+      }
+    });
+  }
+
+  async get() {
+    var params = {
+      TableName: tableName,
+      KeyConditionExpression: 'CUSTOMER_ID = :i'
+      // ExpressionAttributeValues: [(':i': ['2'])]
+    };
+    this.dynamodb.query(params, function(err, data) {
+      if (err) {
+        console.log('Error', err);
+      } else {
+        console.log('Success', data.Items);
+      }
+    });
   }
 
   async getItem() {
@@ -29,22 +59,43 @@ class DynamoDatabase {
     });
   }
 
-  async putItem() {
-    var params = {
-      TableName: tableName,
-      Item: {
-        CUSTOMER_ID: { N: '001' },
-        CUSTOMER_NAME: { S: 'Richard Roe' }
+  async putItem(data) {
+    const getType = type => {
+      // console.log(type);
+      switch (type) {
+        case 'string':
+          return 'S';
+        case 'number':
+          return 'N';
+        case 'bool':
+          return 'B';
+        default:
+          return 'S';
       }
     };
 
-    this.dynamodb.putItem(params, function(err, data) {
-      if (err) {
-        console.log('Error', err);
-      } else {
-        console.log('Success', data);
-      }
-    });
+    const preparedData = Object.keys(data).reduce((acc, key) => {
+      return {
+        ...acc,
+        [key]: { [getType(typeof data[key])]: String(data[key]) }
+      };
+    }, {});
+    console.log(preparedData);
+
+    const params = {
+      TableName: tableName,
+      Item: {
+        'exchane-rates-ukraine-bot-primary-key': { S: uuid() },
+        ...preparedData
+      },
+      ReturnValues: 'NONE'
+    };
+    try {
+      const data = await this.dynamodb.putItem(params).promise();
+      console.log(data);
+    } catch (e) {
+      throw new Error(e);
+    }
   }
 
   async deleteItem() {
