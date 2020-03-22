@@ -25,7 +25,7 @@ module.exports = {
       repo: 'git@github.com:lossless1/exchange-rates-ukraine-bot.git',
       path: '/home/ubuntu/exchange-rates-ukraine-bot',
       'post-deploy':
-        '/home/ubuntu/.nvm/versions/node/v10.10.0/bin/npm install && pm2 reload ecosystem.config.js --env production',
+        'npm install && pm2 reload ecosystem.config.js --env production',
     },
   },
 };
