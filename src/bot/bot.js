@@ -1,6 +1,6 @@
 const Telegraf = require('telegraf');
 const Markup = require('telegraf/markup');
-const { get, isEmpty } = require('lodash');
+const { isEmpty } = require('lodash');
 const { TOKEN } = require('../config/env');
 const UsersModel = require('../models/Users');
 const addMenus = require('./utils/addMenus');
@@ -11,7 +11,6 @@ const UserModel = require('../models/Users');
 const execute = () => {
   const bot = new Telegraf(TOKEN);
   applyMiddlewares(bot);
-
   bot.start(async ctx => {
     const usersModel = new UsersModel();
     const model = {
@@ -80,6 +79,7 @@ const execute = () => {
   bot.on('text', async ctx =>
     ctx.reply('Some wrong action! Please write something else.'),
   );
+
   bot.launch();
 };
 

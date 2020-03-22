@@ -1,9 +1,9 @@
 module.exports = {
   apps: [
     {
-      name: 'Exchange bot',
+      name: 'exchange-bot',
       script: './src/index.js',
-      instances: 2,
+      instances: 1,
       autorestart: true,
       watch: true,
       exec_mode: 'cluster',
@@ -14,6 +14,7 @@ module.exports = {
       env_production: {
         NODE_ENV: 'production',
       },
+      log_date_format: 'YYYY-MM-DD HH:mm Z',
     },
   ],
 
