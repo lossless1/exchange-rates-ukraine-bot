@@ -1,8 +1,13 @@
-const got = require('got');
-const AWS = require('aws-sdk');
-const TelegramExecutor = require('./bot');
+const { execute } = require('./bot/bot');
+const RatesScheduller = require('./utils/scheduler/RatesScheduler');
 
-(async () => {
-  const botInstance = new TelegramExecutor();
-  await botInstance.execute();
-})();
+const start = async () => {
+  execute();
+  RatesScheduller.scheduleFinanceJob();
+  // RatesScheduller.scheduleMinfinJob();
+};
+start()
+  .then(() => console.log('Telegram bot started!'))
+  .catch(e => {
+    // console.error(e);
+  });

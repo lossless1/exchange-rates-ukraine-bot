@@ -22,17 +22,21 @@
   "dependencies": {
     "aws-sdk": "^2.628.0",
     "dotenv": "^8.2.0",
+    "firebase-admin": "^8.9.2",
     "got": "^10.6.0",
+    "lodash": "^4.17.15",
+    "log4js": "^6.1.2",
     "telegraf": "^3.36.0",
+    "telegraf-inline-menu": "^4.0.0",
     "uuid": "^7.0.2"
   },
   "devDependencies": {
-    "nodemon": "^2.0.2",
-    "eslint": "^6.6.0",
+    "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-config-prettier": "^6.5.0",
-    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-prettier": "^3.1.1",
+    "nodemon": "^2.0.2",
     "prettier": "1.19.1"
   }
 }
