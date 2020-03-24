@@ -10,7 +10,7 @@ on:
     branches: [develop]
 
 jobs:
-  test:
+  test2:
     runs-on: ubuntu-latest
 
     strategy:
