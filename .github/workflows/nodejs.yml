@@ -4,11 +4,11 @@
 name: Node.js CI
 
 on:
-  pull_request:
+  push:
     branches: [develop]
 
 jobs:
-  test2:
+  test:
     runs-on: ubuntu-latest
 
     strategy:
