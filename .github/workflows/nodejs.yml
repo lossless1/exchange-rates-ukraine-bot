@@ -22,12 +22,10 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Download artifact
-      uses: actions/download-artifact@v1.0.0
-      with:
-        # Artifact name
-        name: artifact-workflow
-        # Destination path
-        path: artifacto
+        uses: actions/download-artifact@v1.0.0
+        with:
+          name: artifact-workflow
+          path: artifacto
       - run: npm ci
       - run: npm test
         env:
