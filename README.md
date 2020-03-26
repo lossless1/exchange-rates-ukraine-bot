@@ -1,5 +1,8 @@
 # Exchange-rates-ukraine-bot
 
+![](https://img.shields.io/github/workflow/status/lossless1/exchange-rates-ukraine-bot/NodeJs_ci)
+![](https://img.shields.io/github/workflow/status/lossless1/exchange-rates-ukraine-bot/NodeJs_cd)
+
 Telegram bot to showing exchange rates every day
 
 Json resources
