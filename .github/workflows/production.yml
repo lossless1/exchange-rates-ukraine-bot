@@ -1,11 +1,13 @@
 # This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: NodeJs_ci
+name: NodeJs_cd
 
 on:
   push:
-    branches: [develop]
+    branches: [master]
+    tags:
+      - v1
 
 jobs:
   test:
@@ -21,20 +23,8 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Upload artifact
-        uses: actions/upload-artifact@v1.0.0
-        with:
-          name: artifact
-          path: artifacts
-
-      - name: Download artifact
-        uses: actions/download-artifact@v1.0.0
-        with:
-          # Artifact name
-          name: artifact
-          # Destination path
-          path: artifacts
       - run: npm ci
       - run: npm test
+      - run: npm run deploy:dev
         env:
           CI: true
