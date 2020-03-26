@@ -4,7 +4,7 @@
   "description": "Telegram bot to showing exchange rates every day",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "node ./src/index.js",
     "start:dev": "nodemon --inspect ./src/index.js 80",
     "deploy:dev": "pm2 deploy production update"
