@@ -10,7 +10,7 @@ on:
       - v1
 
 jobs:
-  test:
+  deploy:
     runs-on: ubuntu-latest
 
     strategy:
