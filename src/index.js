@@ -11,5 +11,3 @@ start()
   .catch(e => {
     // console.error(e);
   });
-
-console.log('test');
