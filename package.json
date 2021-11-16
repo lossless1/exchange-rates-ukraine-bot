@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/lossless1/exchange-rates-ukraine-bot#readme",
   "dependencies": {
-    "aws-sdk": "^2.644.0",
+    "aws-sdk": "^2.814.0",
     "dotenv": "^8.2.0",
     "firebase-admin": "^8.10.0",
     "got": "^10.6.0",
