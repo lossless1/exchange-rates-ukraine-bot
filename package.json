@@ -26,7 +26,7 @@
     "firebase-admin": "^8.10.0",
     "got": "^10.6.0",
     "lodash": "^4.17.15",
-    "log4js": "^6.1.2",
+    "log4js": "^6.4.0",
     "telegraf": "^3.36.0",
     "telegraf-inline-menu": "^4.0.0",
     "uuid": "^7.0.2"
